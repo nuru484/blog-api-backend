@@ -3,8 +3,8 @@ config();
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import errorHandler from './src/middleware/error-handler';
-import routes from './src/routes/index';
+import errorHandler from './src/middleware/error-handler.js';
+import routes from './src/routes/index.js';
 const app = express();
 
 const allowedOrigins = process.env.CORS_ACCESS;

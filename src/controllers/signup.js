@@ -1,62 +1,27 @@
 import { hash } from 'bcryptjs';
-import { PrismaClient } from '@prisma/client'; // Prisma client for database access
+
+// Prisma client for database access
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-import { body, validationResult } from 'express-validator';
 
-const validateUser = [
-  // Firstname validation
-  body('firstname')
-    .exists({ checkFalsy: true })
-    .withMessage('You must type a firstname')
-    .trim()
-    .escape(),
+// Signup Validators
+import validateConfirmPassword from './validators/signupValidators/validateConfirmPassword';
+import validatePassword from './validators/signupValidators/validatePassword';
+import validateEmail from './validators/signupValidators/validateEmail';
+import validateFirstName from './validators/signupValidators/validateFirstName';
+import validateLastName from './validators/signupValidators/validateLastName';
 
-  // Lastname validation
-  body('lastname')
-    .exists({ checkFalsy: true })
-    .withMessage('You must type a lastname')
-    .trim()
-    .escape(),
-
-  // Password validation
-  body('password')
-    .exists({ checkFalsy: true })
-    .withMessage('You must type a password')
-    .trim()
-    .escape(),
-
-  // Confirm password validation
-  body('confirmedPassword')
-    .exists({ checkFalsy: true })
-    .withMessage('You must type a confirmation password')
-    .trim()
-    .escape()
-    .custom((value, { req }) => value === req.body.password)
-    .withMessage('The passwords do not match'),
-
-  // Email validation
-  body('email')
-    .exists({ checkFalsy: true })
-    .withMessage('You must type an email')
-    .trim()
-    .normalizeEmail()
-    .isEmail()
-    .withMessage('Not a valid email address')
-    .custom(async (value) => {
-      const existingUser = await prisma.user.findUnique({
-        where: { email: value },
-      });
-      if (existingUser) {
-        throw new Error(
-          `A user with the email "${value}" already exists in our database`
-        );
-      }
-    }),
+const validateSignup = [
+  validateConfirmPassword(),
+  validatePassword(),
+  validateEmail(),
+  validateFirstName(),
+  validateLastName(),
 ];
 
 const signUp = [
   // validation middleware
-  ...validateUser,
+  ...validateSignup,
 
   // async function to handle the sign-up logic
   async (req, res, next) => {
@@ -87,7 +52,7 @@ const signUp = [
         },
       });
 
-      res.status(201).json({ user }); // Send success response
+      res.status(201).json({ user });
     } catch (err) {
       next(err);
     }
