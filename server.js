@@ -1,11 +1,26 @@
 import { config } from 'dotenv';
 config();
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import errorHandler from './src/middleware/error-handler';
 import routes from './src/routes/index';
 const app = express();
 
+const allowedOrigins = process.env.CORS_ACCESS;
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) {
+      callback(null, true);
+    } else if (allowedOrigins?.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 app.use('/', routes);
 
 // Error-handling middleware
