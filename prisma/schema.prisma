@@ -18,6 +18,7 @@ model User {
   firstname String
   lastname  String
   email     String    @unique
+  password  String
   Post      Post[]
   Comment   Comment[]
   Like      Like[]
