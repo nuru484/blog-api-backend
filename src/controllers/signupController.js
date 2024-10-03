@@ -1,15 +1,16 @@
-import { hash } from 'bcryptjs';
+import { hash } from 'bcrypt';
+import { validationResult } from 'express-validator';
 
 // Prisma client for database access
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // Signup Validators
-import validateConfirmPassword from './validators/signupValidators/validateConfirmPassword';
-import validatePassword from './validators/signupValidators/validatePassword';
-import validateEmail from './validators/signupValidators/validateEmail';
-import validateFirstName from './validators/signupValidators/validateFirstName';
-import validateLastName from './validators/signupValidators/validateLastName';
+import validateConfirmPassword from './validators/signupValidators/validateConfirmPassword.js';
+import validatePassword from './validators/signupValidators/validatePassword.js';
+import validateEmail from './validators/signupValidators/validateEmail.js';
+import validateFirstName from './validators/signupValidators/validateFirstName.js';
+import validateLastName from './validators/signupValidators/validateLastName.js';
 
 const validateSignup = [
   validateConfirmPassword(),
@@ -29,7 +30,7 @@ const signUp = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       // If there are validation errors, return them to the user
-      return res.status(400).json({ errors: errors.array() }); // Corrected syntax
+      return res.status(400).json({ errors: errors.array() });
     }
 
     try {
@@ -52,7 +53,10 @@ const signUp = [
         },
       });
 
-      res.status(201).json({ user });
+      const SUCCESS_MESSAGE =
+        'Signed-up successfully! Please log in to explore the app!';
+
+      res.status(201).json({ message: SUCCESS_MESSAGE, user });
     } catch (err) {
       next(err);
     }

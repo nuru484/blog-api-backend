@@ -1,10 +1,8 @@
-import { body, ValidationChain } from 'express-validator';
+import { body } from 'express-validator';
 
 /**
  * Validates the 'password' field in the request body.
  * Checks if the value meets strong password criteria.
- *
- * @return {ValidationChain} Express-validator validation chain for 'password'.
  */
 const validateConfirmPassword = () => {
   return body('confirmedPassword')

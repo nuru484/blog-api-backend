@@ -1,4 +1,4 @@
-import { body, ValidationChain } from 'express-validator';
+import { body } from 'express-validator';
 
 // Prisma client for database access
 import { PrismaClient } from '@prisma/client';
@@ -8,8 +8,6 @@ const prisma = new PrismaClient();
  * Validates the 'email' field in the request body.
  * Checks if the value is a valid email format and if it's not already in use.
  * Sends an error message if the email is invalid or already in use.
- *
- * @return {ValidationChain} Express-validator validation chain for 'email'.
  */
 
 // Email validation

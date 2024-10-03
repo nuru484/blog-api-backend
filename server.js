@@ -3,7 +3,7 @@ config();
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import * as bodyParser from 'body-parser';
+import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import errorHandler from './src/middleware/error-handler.js';
 import routes from './src/routes/index.js';
@@ -26,6 +26,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'src/public')));
 
 app.use('/', routes);

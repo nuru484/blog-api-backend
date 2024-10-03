@@ -1,7 +1,7 @@
 import e, { Router } from 'express';
 const signupRoute = Router();
 
-import signUp from '../controllers/signupController';
+import signUp from '../controllers/signupController.js';
 
 /**
  * Route for user signup.

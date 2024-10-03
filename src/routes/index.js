@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import signupRoute from './signup';
+import signupRoute from './signup.js';
 
 /**
  * Express router for defining API routes.
