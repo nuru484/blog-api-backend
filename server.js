@@ -3,6 +3,8 @@ config();
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import * as bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import errorHandler from './src/middleware/error-handler.js';
 import routes from './src/routes/index.js';
 const app = express();
@@ -21,6 +23,11 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'src/public')));
+
 app.use('/', routes);
 
 // Error-handling middleware
