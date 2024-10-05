@@ -9,14 +9,14 @@ import validatePassword from './validators/loginValidators/validatePassword.js';
 import validateEmail from './validators/loginValidators/validateEmail.js';
 
 // Signup validation middleware
-const validateSignup = [validatePassword(), validateEmail()];
+const validateLogin = [validatePassword(), validateEmail()];
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Login handler function
 const login = [
   // Validation middleware
-  ...validateSignup,
+  ...validateLogin,
 
   // Main login handler
   async (req, res) => {
@@ -45,10 +45,16 @@ const login = [
         return res.status(401).json({ message: 'Incorrect password' });
       }
 
-      // User authenticated, generate a JWT
-      const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-        expiresIn: '1h',
-      });
+      // User authenticated, generate a JWT with the role included
+      const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      );
 
       // Successful login
       res.json({ user, token });
