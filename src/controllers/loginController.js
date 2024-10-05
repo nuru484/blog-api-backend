@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 // Validators for email and password
-import validatePassword from './validators/signupValidators/validatePassword.js';
-import validateEmail from './validators/signupValidators/validateEmail.js';
+import validatePassword from './validators/loginValidators/validatePassword.js';
+import validateEmail from './validators/loginValidators/validateEmail.js';
 
 // Signup validation middleware
 const validateSignup = [validatePassword(), validateEmail()];
