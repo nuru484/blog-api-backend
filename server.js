@@ -5,6 +5,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
 import errorHandler from './src/middleware/error-handler.js';
 import routes from './src/routes/index.js';
 const app = express();
@@ -26,6 +27,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Use Morgan middleware for logging requests
+app.use(morgan('combined'));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
