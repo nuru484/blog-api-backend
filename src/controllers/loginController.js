@@ -11,7 +11,8 @@ import validateEmail from './validators/loginValidators/validateEmail.js';
 // Signup validation middleware
 const validateLogin = [validatePassword(), validateEmail()];
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 // Login handler function
 const login = [
@@ -52,12 +53,12 @@ const login = [
           email: user.email,
           role: user.role,
         },
-        JWT_SECRET,
-        { expiresIn: '1h' }
+        ACCESS_TOKEN_SECRET,
+        { expiresIn: '15s' }
       );
 
-      const refreshToken = jwt.sign({ id: user.id }, JWT_SECRET, {
-        expiresIn: '7d',
+      const refreshToken = jwt.sign({ id: user.id }, REFRESH_TOKEN_SECRET, {
+        expiresIn: '30s',
       });
 
       await prisma.user.update({

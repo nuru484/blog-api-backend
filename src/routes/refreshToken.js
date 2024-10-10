@@ -7,6 +7,6 @@ import refreshToken from '../authentication/refreshToken.js';
 /**
  * Route for refresh token generation.
  */
-refreshTokenRoute.post('/login', authLimiter, refreshToken);
+refreshTokenRoute.post('/refreshToken', authLimiter, refreshToken);
 
 export default refreshTokenRoute;

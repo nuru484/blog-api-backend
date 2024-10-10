@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
-// Import a proper logging library for production
+// Import  logging library for production
 import winston from 'winston';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 // Middleware to verify token
 const authenticateJWT = (req, res, next) => {
@@ -12,7 +12,7 @@ const authenticateJWT = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     // Verify the token
-    jwt.verify(token, JWT_SECRET, (err, user) => {
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
       if (err) {
         if (err.name === 'TokenExpiredError') {
           return res.status(401).json({ message: 'Token expired' });

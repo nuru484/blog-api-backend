@@ -1,4 +1,8 @@
-require('dotenv').config();
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+import jwt from 'jsonwebtoken';
+
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 const refreshToken = async (req, res) => {
@@ -33,11 +37,11 @@ const refreshToken = async (req, res) => {
       const newAccessToken = jwt.sign(
         {
           id: decoded.id, // Use decoded token to access user details
-          email: decoded.email,
-          role: decoded.role,
+          email: user.email,
+          role: user.role,
         },
-        JWT_SECRET,
-        { expiresIn: '1h' } // New access token valid for 1 hour
+        ACCESS_TOKEN_SECRET,
+        { expiresIn: '15s' } // New access token valid for 1 hour
       );
 
       res.json({ accessToken: newAccessToken });
