@@ -46,7 +46,7 @@ const login = [
       }
 
       // User authenticated, generate a JWT with the role included
-      const token = jwt.sign(
+      const accessToken = jwt.sign(
         {
           id: user.id,
           email: user.email,
@@ -56,8 +56,17 @@ const login = [
         { expiresIn: '1h' }
       );
 
+      const refreshToken = jwt.sign({ id: user.id }, JWT_SECRET, {
+        expiresIn: '7d',
+      });
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { refreshToken },
+      });
+
       // Successful login
-      res.json({ user, token });
+      res.json({ user, accessToken, refreshToken });
     } catch (error) {
       console.error('Error logging in:', error);
       res.status(500).json({ message: 'Server error' });
