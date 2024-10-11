@@ -5,7 +5,7 @@ import { body } from 'express-validator';
  * Checks if the value meets strong password criteria.
  */
 const validateConfirmPassword = () => {
-  return body('confirmedPassword')
+  return body('confirmPassword')
     .exists({ checkFalsy: true })
     .withMessage('You must type a confirmation password')
     .trim()
