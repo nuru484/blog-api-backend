@@ -110,4 +110,49 @@ const deletePost = async (req, res, next) => {
   }
 };
 
-export { createPost, publishPost, updatePost, deletePost };
+const getUnpublishPosts = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let unpublishPosts;
+
+    if (id) {
+      // Find unpublished posts by user
+      unpublishPosts = await prisma.post.findMany({
+        where: {
+          userId: parseInt(id, 10),
+          published: false, // Only fetching unpublished posts
+        },
+      });
+    } else {
+      // Find all unpublished posts
+      unpublishPosts = await prisma.post.findMany({
+        where: {
+          published: false, // Only unpublished posts
+        },
+      });
+    }
+
+    // if the result is empty
+    if (unpublishPosts.length === 0) {
+      return res.status(200).json({
+        message: id
+          ? 'This user has no unpublished posts'
+          : 'No unpublished posts found',
+        unpublishPosts: [],
+      });
+    }
+
+    // unpublished posts
+    res.status(200).json({
+      message: id
+        ? 'User unpublished posts fetched successfully'
+        : 'Unpublished posts fetched successfully',
+      unpublishPosts,
+    });
+  } catch (error) {
+    console.error('Error fetching unpublished posts', error);
+    next(error);
+  }
+};
+
+export { createPost, publishPost, updatePost, deletePost, getUnpublishPosts };

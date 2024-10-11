@@ -49,4 +49,25 @@ postRoute.delete(
   postController.deletePost
 );
 
+/**
+ * Route for fetching unpublish posts of a user.
+ * GET /posts/:id
+ */
+postRoute.get(
+  '/posts/:id',
+  authLimiter,
+  authenticateJWT,
+  postController.getUnpublishPosts
+);
+
+/**
+ * Route for fetching all unpublish posts.
+ * GET /posts
+ */
+postRoute.get(
+  '/posts',
+  authLimiter,
+  authenticateJWT,
+  postController.getUnpublishPosts
+);
 export default postRoute;
