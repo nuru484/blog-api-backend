@@ -41,7 +41,7 @@ const refreshToken = async (req, res) => {
           role: user.role,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: '15s' } // New access token valid for 1 hour
+        { expiresIn: '15m' } // New access token valid for 1 hour
       );
 
       res.json({ accessToken: newAccessToken });

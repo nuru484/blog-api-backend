@@ -44,6 +44,7 @@ const signUp = [
           lastname: req.body.lastname,
           password: hashedPassword,
           email: req.body.email,
+          role: req.body.role,
         },
       });
 

@@ -3,7 +3,7 @@ const adminDashboardRoute = Router();
 
 import authenticateJWT from '../authentication/jwtAuthentication.js';
 import authorizeRole from '../middleware/authorizeRole.js';
-import adminDashboard from '../controllers/adminDashboardController.js';
+import adminDashboard from '../controllers/adminController.js';
 
 /**
  * Route for homepage.
@@ -11,7 +11,7 @@ import adminDashboard from '../controllers/adminDashboardController.js';
 adminDashboardRoute.get(
   '/admin-dashboard',
   authenticateJWT,
-  //   authorizeRole(['admin']),
+  authorizeRole(['ADMIN']),
   adminDashboard
 );
 

@@ -1,8 +1,8 @@
 import { compare } from 'bcrypt';
 import { validationResult } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
+import jwt from 'jsonwebtoken';
 
 // Validators for email and password
 import validatePassword from './validators/loginValidators/validatePassword.js';
@@ -54,11 +54,11 @@ const login = [
           role: user.role,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: '15s' }
+        { expiresIn: '15m' }
       );
 
       const refreshToken = jwt.sign({ id: user.id }, REFRESH_TOKEN_SECRET, {
-        expiresIn: '30s',
+        expiresIn: '7d',
       });
 
       await prisma.user.update({

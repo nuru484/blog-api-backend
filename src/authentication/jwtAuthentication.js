@@ -1,6 +1,4 @@
 import jwt from 'jsonwebtoken';
-// Import  logging library for production
-import winston from 'winston';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
@@ -17,7 +15,7 @@ const authenticateJWT = (req, res, next) => {
         if (err.name === 'TokenExpiredError') {
           return res.status(401).json({ message: 'Token expired' });
         }
-        winston.error('Invalid token', { err });
+        console.error('Invalid token', { err });
         return res.status(403).json({ message: 'Invalid token' });
       }
 
@@ -26,7 +24,7 @@ const authenticateJWT = (req, res, next) => {
       next(); // Continue to the protected route
     });
   } else {
-    winston.warn('Authorization header missing');
+    console.warn('Authorization header missing');
     return res.status(401).json({ message: 'Authorization header missing' });
   }
 };
