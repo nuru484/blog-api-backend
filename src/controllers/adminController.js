@@ -3,7 +3,9 @@ const prisma = new PrismaClient();
 
 const adminDashboard = async (req, res, next) => {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      include: { tags: true },
+    });
     res.json({ message: 'Welcome Admin!', posts });
   } catch (error) {
     console.error('Error retrieving posts:', error);

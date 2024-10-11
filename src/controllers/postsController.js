@@ -3,23 +3,68 @@ const prisma = new PrismaClient();
 
 const createPost = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, published, tagIDs, tagNames } = req.body;
     const userId = req.user.id;
 
+    if (!title || !content) {
+      return res
+        .status(400)
+        .json({ message: 'Post title and content are required' });
+    }
+
+    let connectedTags = [];
+
+    // If tagNames are provided, find or create the tags by name
+    if (tagNames && tagNames.length > 0) {
+      const tagData = await Promise.all(
+        tagNames.map(async (tagName) => {
+          let tag = await prisma.tag.findUnique({
+            where: { name: tagName },
+          });
+
+          if (!tag) {
+            tag = await prisma.tag.create({
+              data: { name: tagName },
+            });
+          }
+
+          return tag;
+        })
+      );
+
+      connectedTags = connectedTags.concat(
+        tagData.map((tag) => ({ id: tag.id }))
+      );
+    }
+
+    // If tagIDs are provided, connect them directly
+    if (tagIDs && tagIDs.length > 0) {
+      connectedTags = connectedTags.concat(
+        tagIDs.map((tagId) => ({ id: tagId }))
+      );
+    }
+
+    // Create post with the connected tags
     const post = await prisma.post.create({
       data: {
         title,
         content,
+        published,
         userId,
+        tags: {
+          connect: connectedTags,
+        },
       },
+      include: { tags: true }, // Include tags in the response
     });
 
-    res.json({ message: 'Post created successfully!', post });
+    res.status(201).json({ message: 'Post created successfully!', post });
   } catch (error) {
     console.error('Error creating post', error);
     next(error);
   }
 };
+
 const publishPost = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -52,7 +97,7 @@ const publishPost = async (req, res, next) => {
 
 const updatePost = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, tagIDs, tagNames } = req.body;
     const { id } = req.params;
 
     if (!id) {
@@ -69,9 +114,50 @@ const updatePost = async (req, res, next) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
+    let connectedTags = [];
+
+    // If tagNames are provided, find or create the tags by name
+    if (tagNames && tagNames.length > 0) {
+      const tagData = await Promise.all(
+        tagNames.map(async (tagName) => {
+          let tag = await prisma.tag.findUnique({
+            where: { name: tagName },
+          });
+
+          if (!tag) {
+            tag = await prisma.tag.create({
+              data: { name: tagName },
+            });
+          }
+
+          return tag;
+        })
+      );
+
+      connectedTags = connectedTags.concat(
+        tagData.map((tag) => ({ id: tag.id }))
+      );
+    }
+
+    // If tagIDs are provided, connect them directly
+    if (tagIDs && tagIDs.length > 0) {
+      connectedTags = connectedTags.concat(
+        tagIDs.map((tagId) => ({ id: tagId }))
+      );
+    }
+
+    // Update post with new data and the connected tags
     const updatedPost = await prisma.post.update({
       where: { id: post.id },
-      data: { title, content },
+      data: {
+        title,
+        content,
+        tags: {
+          set: [],
+          connect: connectedTags,
+        },
+      },
+      include: { tags: true },
     });
 
     res.json({ message: 'Post updated successfully!', updatedPost });

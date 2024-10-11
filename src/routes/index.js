@@ -4,7 +4,8 @@ import signupRoute from './signup.js';
 import loginRoute from './login.js';
 import adminDashboardRoute from './admin.js';
 import refreshTokenRoute from './refreshToken.js';
-import postRoute from './post.js';
+import postRoute from './posts.js';
+import tagRoute from './tags.js';
 
 /**
  * Express router for defining API routes.
@@ -37,5 +38,10 @@ routes.use('/api/v1', refreshTokenRoute);
  * Route for creating a post.
  */
 routes.use('/api/v1', postRoute);
+
+/**
+ * Route for creating a tag.
+ */
+routes.use('/api/v1', tagRoute);
 
 export default routes;
