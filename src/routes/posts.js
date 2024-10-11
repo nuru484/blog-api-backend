@@ -41,13 +41,24 @@ postRoute.patch(
 
 /**
  * Route for deleting a post .
- * PATCH /posts/:id
+ * DELETE /posts/:id
  */
 postRoute.delete(
   '/posts/:id',
   authenticateJWT,
   authLimiter,
   postController.deletePost
+);
+
+/**
+ * Route for deleting all posts.
+ * DELETE /posts
+ */
+postRoute.delete(
+  '/posts',
+  authenticateJWT,
+  authLimiter,
+  postController.deleteAllPosts
 );
 
 /**

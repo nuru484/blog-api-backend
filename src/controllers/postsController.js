@@ -196,6 +196,16 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+const deleteAllPosts = async (req, res, next) => {
+  try {
+    const deleteResult = await prisma.post.deleteMany({});
+    res.json({ message: 'All posts deleted successfully!', deleteResult });
+  } catch (error) {
+    console.error('Error deleting all posts', error);
+    next(error);
+  }
+};
+
 // Helper function to fetch posts based on published status
 const fetchPosts = async (id, isPublished) => {
   const whereClause = id
@@ -334,4 +344,5 @@ export {
   getPublishPosts,
   getLatestPosts,
   getPostsByTag,
+  deleteAllPosts,
 };
