@@ -38,4 +38,15 @@ postRoute.patch(
   postController.updatePost
 );
 
+/**
+ * Route for deleting a post .
+ * PATCH /posts/:id
+ */
+postRoute.delete(
+  '/posts/:id',
+  authLimiter,
+  authenticateJWT,
+  postController.deletePost
+);
+
 export default postRoute;

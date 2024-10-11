@@ -43,7 +43,7 @@ const publishPost = async (req, res, next) => {
       data: { published: true },
     });
 
-    res.json({ message: 'Post published successfully!', post: publishedPost });
+    res.json({ message: 'Post published successfully!', publishedPost });
   } catch (error) {
     console.error('Error publishing post', error);
     next(error);
@@ -74,11 +74,40 @@ const updatePost = async (req, res, next) => {
       data: { title, content },
     });
 
-    res.json({ message: 'Post updated successfully!', post: updatedPost });
+    res.json({ message: 'Post updated successfully!', updatedPost });
   } catch (error) {
     console.error('Error updating post', error);
     next(error);
   }
 };
 
-export { createPost, publishPost, updatePost };
+const deletePost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Post ID is required' });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id: parseInt(id, 10),
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const deletedPost = await prisma.post.delete({
+      where: { id: post.id },
+    });
+
+    res.json({ message: 'Post deleted successfully!', deletedPost });
+  } catch (error) {
+    console.error('Error updating post', error);
+    next(error);
+  }
+};
+
+export { createPost, publishPost, updatePost, deletePost };
