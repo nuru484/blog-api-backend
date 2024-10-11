@@ -43,4 +43,5 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
+  console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
 });
