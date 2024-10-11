@@ -173,6 +173,72 @@ const getPublishPosts = async (req, res, next) => {
   }
 };
 
+const getLatestPosts = async (req, res, next) => {
+  try {
+    // latest 10 posts, sorted by creation date in descending order
+    const latestPosts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
+
+    if (latestPosts.length === 0) {
+      return res.status(200).json({
+        message: 'No posts found',
+        latestPosts: [],
+      });
+    }
+
+    res.status(200).json({
+      message: 'Latest posts fetched successfully',
+      latestPosts,
+    });
+  } catch (error) {
+    console.error('Error fetching latest posts', error);
+    next(error);
+  }
+};
+
+const getPostsByTag = async (req, res, next) => {
+  try {
+    const { tags } = req.params;
+
+    // Split the tags into an array
+    const tagNames = tags.split(',');
+
+    const posts = await prisma.post.findMany({
+      where: {
+        tags: {
+          some: {
+            name: {
+              in: tagNames, // Filter posts with any of the specified tag names
+            },
+          },
+        },
+      },
+      include: {
+        tags: true,
+      },
+    });
+
+    if (posts.length === 0) {
+      return res
+        .status(404)
+        .json({ message: `Posts with these tags: ${tagNames} not found` });
+    }
+
+    res.json({
+      message: `Posts by tags: ${tagNames} fetched successfully`,
+      posts,
+    });
+  } catch (error) {
+    console.error('Error fetching posts by tags', error);
+    next(error);
+  }
+};
+
 export {
   createPost,
   publishPost,
@@ -180,4 +246,6 @@ export {
   deletePost,
   getUnpublishPosts,
   getPublishPosts,
+  getLatestPosts,
+  getPostsByTag,
 };
