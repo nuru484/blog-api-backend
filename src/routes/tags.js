@@ -19,4 +19,14 @@ tagRoute.put('/tag/:id', authLimiter, tagsController.updateTag);
  */
 tagRoute.get('/tags', tagsController.getTags);
 
+/**
+ * Route for deleting a tags.
+ */
+tagRoute.delete('/tags/:id', tagsController.deleteTag);
+
+/**
+ * Route for deleting all tags.
+ */
+tagRoute.delete('/tags', tagsController.deleteAllTags);
+
 export default tagRoute;
