@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+import { validationResult } from 'express-validator';
+
+import validateTagName from './validators/tagValidators/validateTagName.js';
 
 // Helper function for handling tag ID parsing and validation
 const getTagById = async (id, res) => {
@@ -21,49 +24,71 @@ const getTagById = async (id, res) => {
 };
 
 // Create Tag
-const createTag = async (req, res, next) => {
-  try {
-    const { name } = req.body;
+const createTag = [
+  validateTagName,
 
-    if (!name) {
-      return res.status(400).json({ message: 'Tag name is required' });
+  async (req, res, next) => {
+    // validation errors from validateTagname middleware
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // If there are validation errors, return them to the user
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const tag = await prisma.tag.create({
-      data: { name },
-    });
+    try {
+      const { name } = req.body;
 
-    res.json({ message: 'Tag created successfully!', tag });
-  } catch (error) {
-    console.error('Error creating tag', error);
-    next(error);
-  }
-};
+      if (!name) {
+        return res.status(400).json({ message: 'Tag name is required' });
+      }
+
+      const tag = await prisma.tag.create({
+        data: { name },
+      });
+
+      res.json({ message: 'Tag created successfully!', tag });
+    } catch (error) {
+      console.error('Error creating tag', error);
+      next(error);
+    }
+  },
+];
 
 // Update Tag
-const updateTag = async (req, res, next) => {
-  try {
-    const { name } = req.body;
-    const { id } = req.params;
+const updateTag = [
+  validateTagName,
 
-    if (!name) {
-      return res.status(400).json({ message: 'Tag name is required' });
+  async (req, res, next) => {
+    // validation errors from validateTagname middleware
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // If there are validation errors, return them to the user
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const tag = await getTagById(id, res);
-    if (!tag) return;
+    try {
+      const { name } = req.body;
+      const { id } = req.params;
 
-    const updatedTag = await prisma.tag.update({
-      where: { id: tag.id },
-      data: { name },
-    });
+      if (!name) {
+        return res.status(400).json({ message: 'Tag name is required' });
+      }
 
-    res.json({ message: 'Tag updated successfully!', updatedTag });
-  } catch (error) {
-    console.error('Error updating tag', error);
-    next(error);
-  }
-};
+      const tag = await getTagById(id, res);
+      if (!tag) return;
+
+      const updatedTag = await prisma.tag.update({
+        where: { id: tag.id },
+        data: { name },
+      });
+
+      res.json({ message: 'Tag updated successfully!', updatedTag });
+    } catch (error) {
+      console.error('Error updating tag', error);
+      next(error);
+    }
+  },
+];
 
 // Get All Tags
 const getTags = async (req, res, next) => {
