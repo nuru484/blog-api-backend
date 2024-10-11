@@ -110,29 +110,21 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+// Helper function to fetch posts based on published status
+const fetchPosts = async (id, isPublished) => {
+  const whereClause = id
+    ? { userId: parseInt(id, 10), published: isPublished }
+    : { published: isPublished };
+
+  return await prisma.post.findMany({ where: whereClause });
+};
+
 const getUnpublishPosts = async (req, res, next) => {
   try {
     const { id } = req.params;
-    let unpublishPosts;
+    const unpublishPosts = await fetchPosts(id, false); // Fetch unpublished posts
 
-    if (id) {
-      // Find unpublished posts by user
-      unpublishPosts = await prisma.post.findMany({
-        where: {
-          userId: parseInt(id, 10),
-          published: false, // Only fetching unpublished posts
-        },
-      });
-    } else {
-      // Find all unpublished posts
-      unpublishPosts = await prisma.post.findMany({
-        where: {
-          published: false, // Only unpublished posts
-        },
-      });
-    }
-
-    // if the result is empty
+    // Return the response
     if (unpublishPosts.length === 0) {
       return res.status(200).json({
         message: id
@@ -142,7 +134,6 @@ const getUnpublishPosts = async (req, res, next) => {
       });
     }
 
-    // unpublished posts
     res.status(200).json({
       message: id
         ? 'User unpublished posts fetched successfully'
@@ -155,4 +146,38 @@ const getUnpublishPosts = async (req, res, next) => {
   }
 };
 
-export { createPost, publishPost, updatePost, deletePost, getUnpublishPosts };
+const getPublishPosts = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const publishPosts = await fetchPosts(id, true); // Fetch published posts
+
+    // Return the response
+    if (publishPosts.length === 0) {
+      return res.status(200).json({
+        message: id
+          ? 'This user has no published posts'
+          : 'No published posts found',
+        publishPosts: [],
+      });
+    }
+
+    res.status(200).json({
+      message: id
+        ? 'User published posts fetched successfully'
+        : 'Published posts fetched successfully',
+      publishPosts,
+    });
+  } catch (error) {
+    console.error('Error fetching published posts', error);
+    next(error);
+  }
+};
+
+export {
+  createPost,
+  publishPost,
+  updatePost,
+  deletePost,
+  getUnpublishPosts,
+  getPublishPosts,
+};
