@@ -6,6 +6,6 @@ import viewPost from '../controllers/viewsController.js';
 /**
  * Route for updating views.
  */
-viewsRoute.post('/view', login);
+viewsRoute.post('/view/:postId/', viewPost);
 
 export default viewsRoute;

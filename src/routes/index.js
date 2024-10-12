@@ -7,6 +7,7 @@ import refreshTokenRoute from './refreshToken.js';
 import postRoute from './posts.js';
 import tagRoute from './tags.js';
 import commentsRoute from './comments.js';
+import viewsRoute from './views.js';
 
 /**
  * Express router for defining API routes.
@@ -49,5 +50,10 @@ routes.use('/api/v1', tagRoute);
  * Route for creating a comment.
  */
 routes.use('/api/v1', commentsRoute);
+
+/**
+ * Route for views.
+ */
+routes.use('/api/v1', viewsRoute);
 
 export default routes;
