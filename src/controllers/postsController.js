@@ -55,7 +55,7 @@ const createPost = async (req, res, next) => {
           connect: connectedTags,
         },
       },
-      include: { tags: true }, // Include tags in the response
+      include: { tags: true, comments: true, views: true, likes: true },
     });
 
     res.status(201).json({ message: 'Post created successfully!', post });
@@ -86,6 +86,7 @@ const publishPost = async (req, res, next) => {
     const publishedPost = await prisma.post.update({
       where: { id: post.id },
       data: { published: true },
+      include: { tags: true, comments: true, views: true, likes: true },
     });
 
     res.json({ message: 'Post published successfully!', publishedPost });
@@ -157,7 +158,7 @@ const updatePost = async (req, res, next) => {
           connect: connectedTags,
         },
       },
-      include: { tags: true },
+      include: { tags: true, comments: true, views: true, likes: true },
     });
 
     res.json({ message: 'Post updated successfully!', updatedPost });
@@ -212,7 +213,15 @@ const fetchPosts = async (id, isPublished) => {
     ? { userId: parseInt(id, 10), published: isPublished }
     : { published: isPublished };
 
-  return await prisma.post.findMany({ where: whereClause });
+  return await prisma.post.findMany({
+    where: whereClause,
+    include: {
+      tags: true,
+      comments: true,
+      views: true,
+      likes: true,
+    },
+  });
 };
 
 const getUnpublishPosts = async (req, res, next) => {
@@ -278,6 +287,12 @@ const getLatestPosts = async (req, res, next) => {
         createdAt: 'desc',
       },
       take: 10,
+      include: {
+        tags: true,
+        comments: true,
+        views: true,
+        likes: true,
+      },
     });
 
     if (latestPosts.length === 0) {
@@ -316,6 +331,9 @@ const getPostsByTag = async (req, res, next) => {
       },
       include: {
         tags: true,
+        comments: true,
+        views: true,
+        likes: true,
       },
     });
 

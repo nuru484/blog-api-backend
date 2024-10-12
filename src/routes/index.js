@@ -6,6 +6,7 @@ import adminDashboardRoute from './admin.js';
 import refreshTokenRoute from './refreshToken.js';
 import postRoute from './posts.js';
 import tagRoute from './tags.js';
+import commentsRoute from './comments.js';
 
 /**
  * Express router for defining API routes.
@@ -43,5 +44,10 @@ routes.use('/api/v1', postRoute);
  * Route for creating a tag.
  */
 routes.use('/api/v1', tagRoute);
+
+/**
+ * Route for creating a comment.
+ */
+routes.use('/api/v1', commentsRoute);
 
 export default routes;
