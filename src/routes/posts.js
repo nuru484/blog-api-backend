@@ -4,7 +4,7 @@ const postRoute = Router();
 import authLimiter from '../middleware/rateLimit.js';
 import * as postController from '../controllers/postsController.js';
 import authenticateJWT from '../authentication/jwtAuthentication.js';
-import authorizeRole from '../middleware/authorizeRole.js';
+import authorizeRole from '../middleware/auth/authorizeRole.js';
 
 /**
  * Route for creating a post.

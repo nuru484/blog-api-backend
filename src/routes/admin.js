@@ -2,7 +2,7 @@ import { Router } from 'express';
 const adminDashboardRoute = Router();
 
 import authenticateJWT from '../authentication/jwtAuthentication.js';
-import authorizeRole from '../middleware/authorizeRole.js';
+import authorizeRole from '../middleware/auth/authorizeRole.js';
 import adminDashboard from '../controllers/adminController.js';
 
 /**
