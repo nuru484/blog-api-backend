@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import { validationResult } from 'express-validator';
-import validateComment from './validators/commentValidators/validateComment.js';
+import validateComment from './validators/validateComment.js';
 
 const createComment = [
   validateComment(),

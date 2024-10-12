@@ -8,6 +8,7 @@ import postRoute from './posts.js';
 import tagRoute from './tags.js';
 import commentsRoute from './comments.js';
 import viewsRoute from './views.js';
+import likesRoute from './likes.js';
 
 /**
  * Express router for defining API routes.
@@ -55,5 +56,10 @@ routes.use('/api/v1', commentsRoute);
  * Route for views.
  */
 routes.use('/api/v1', viewsRoute);
+
+/**
+ * Route for views.
+ */
+routes.use('/api/v1', likesRoute);
 
 export default routes;
