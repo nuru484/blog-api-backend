@@ -4,12 +4,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import jwt from 'jsonwebtoken';
 
-// Validators for email and password
-import validatePassword from './validators/loginValidators/validatePassword.js';
-import validateEmail from './validators/loginValidators/validateEmail.js';
+// Login Validators
+import * as loginValidators from './validators/loginValidators.js';
 
 // Signup validation middleware
-const validateLogin = [validatePassword(), validateEmail()];
+const validateLogin = [
+  loginValidators.validatePassword(),
+  loginValidators.validateEmail(),
+];
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;

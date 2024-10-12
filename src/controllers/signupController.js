@@ -6,18 +6,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // Signup Validators
-import validateConfirmPassword from './validators/signupValidators/validateConfirmPassword.js';
-import validatePassword from './validators/signupValidators/validatePassword.js';
-import validateEmail from './validators/signupValidators/validateEmail.js';
-import validateFirstName from './validators/signupValidators/validateFirstName.js';
-import validateLastName from './validators/signupValidators/validateLastName.js';
+import * as signupValidators from './validators/signupValidators.js';
 
 const validateSignup = [
-  validateConfirmPassword(),
-  validatePassword(),
-  validateEmail(),
-  validateFirstName(),
-  validateLastName(),
+  signupValidators.validateConfirmPassword(),
+  signupValidators.validatePassword(),
+  signupValidators.validateEmail(),
+  signupValidators.validateFirstName(),
+  signupValidators.validateLastName(),
 ];
 
 const signUp = [

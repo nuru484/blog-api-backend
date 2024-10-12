@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import { validationResult } from 'express-validator';
 
-import validateTagName from './validators/tagValidators/validateTagName.js';
+import validateTagName from './validators/tagValidator.js';
 
 // Helper function for handling tag ID parsing and validation
 const getTagById = async (id, res) => {
