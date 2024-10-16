@@ -44,7 +44,7 @@ const refreshToken = async (req, res) => {
         { expiresIn: '15m' } // New access token valid for 1 hour
       );
 
-      res.json({ accessToken: newAccessToken });
+      res.json({ newAccessToken, user: req.user });
     });
   } catch (error) {
     console.error('Server error during refresh token process:', error);

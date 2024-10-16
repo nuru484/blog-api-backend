@@ -19,7 +19,7 @@ const authenticateJWT = (req, res, next) => {
         return res.status(403).json({ message: 'Invalid token' });
       }
 
-      // Attach the user object to the request for further use in protected routes
+      // User object for further use in protected routes
       req.user = user;
       next(); // Continue to the protected route
     });
