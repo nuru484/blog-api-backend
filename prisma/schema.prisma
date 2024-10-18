@@ -61,7 +61,7 @@ model Comment {
 
 model View {
   id        Int      @id @default(autoincrement())
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int      @unique
   count     Int      @default(0)
   createdAt DateTime @default(now())

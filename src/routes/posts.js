@@ -99,13 +99,7 @@ postRoute.get(
  * Route for fetching all publish posts.
  * GET /posts/published
  */
-postRoute.get(
-  '/posts/published',
-  authenticateJWT,
-  authorizeRole(['ADMIN']),
-  authLimiter,
-  postController.getPublishPosts
-);
+postRoute.get('/posts/published', postController.getPublishPosts);
 
 /**
  * Route for fetching latest 10 posts.
