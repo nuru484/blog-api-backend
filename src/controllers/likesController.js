@@ -89,6 +89,7 @@ const unLikePost = async (req, res, next) => {
 
     const post = await prisma.post.findUnique({
       where: { id: postID },
+      include: { tags: true, comments: true, views: true, likes: true },
     });
 
     if (!post) {
@@ -128,7 +129,7 @@ const unLikePost = async (req, res, next) => {
       return res.status(404).json({ message: 'User like not found' });
     }
 
-    await prisma.like.delete({
+    const deletedLike = await prisma.like.delete({
       where: {
         id: existingLike.id,
       },
@@ -139,9 +140,15 @@ const unLikePost = async (req, res, next) => {
       where: { postId: postID },
     });
 
+    const unlikedPost = await prisma.post.findUnique({
+      where: { id: postID },
+      include: { tags: true, comments: true, views: true, likes: true },
+    });
+
     res.json({
       message: 'Post unliked successfully!',
-      post,
+      like: deletedLike,
+      post: unlikedPost,
       totalLikes,
     });
   } catch (error) {

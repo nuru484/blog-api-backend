@@ -6,6 +6,9 @@ const createPost = async (req, res, next) => {
     const { title, content, published, tagIDs, tagNames } = req.body;
     const userId = req.user.id;
 
+    console.log(`Tag ids: ${tagIDs}`);
+    console.log(`Tag ids: ${tagNames}`);
+
     if (!title || !content) {
       return res
         .status(400)
@@ -89,7 +92,7 @@ const publishPost = async (req, res, next) => {
       include: { tags: true, comments: true, views: true, likes: true },
     });
 
-    res.json({ message: 'Post published successfully!', publishedPost });
+    res.json({ message: 'Post published successfully!', post: publishedPost });
   } catch (error) {
     console.error('Error publishing post', error);
     next(error);
@@ -161,7 +164,7 @@ const updatePost = async (req, res, next) => {
       include: { tags: true, comments: true, views: true, likes: true },
     });
 
-    res.json({ message: 'Post updated successfully!', updatedPost });
+    res.json({ message: 'Post updated successfully!', post: updatedPost });
   } catch (error) {
     console.error('Error updating post', error);
     next(error);
@@ -190,7 +193,7 @@ const deletePost = async (req, res, next) => {
       where: { id: post.id },
     });
 
-    res.json({ message: 'Post deleted successfully!', deletedPost });
+    res.json({ message: 'Post deleted successfully!', post: deletedPost });
   } catch (error) {
     console.error('Error updating post', error);
     next(error);
@@ -200,7 +203,10 @@ const deletePost = async (req, res, next) => {
 const deleteAllPosts = async (req, res, next) => {
   try {
     const deleteResult = await prisma.post.deleteMany({});
-    res.json({ message: 'All posts deleted successfully!', deleteResult });
+    res.json({
+      message: 'All posts deleted successfully!',
+      post: deleteResult,
+    });
   } catch (error) {
     console.error('Error deleting all posts', error);
     next(error);
@@ -220,6 +226,7 @@ const fetchPosts = async (id, isPublished) => {
       comments: true,
       views: true,
       likes: true,
+      author: true,
     },
   });
 };
@@ -243,7 +250,7 @@ const getUnpublishPosts = async (req, res, next) => {
       message: id
         ? 'User unpublished posts fetched successfully'
         : 'Unpublished posts fetched successfully',
-      unpublishPosts,
+      posts: unpublishPosts,
     });
   } catch (error) {
     console.error('Error fetching unpublished posts', error);
@@ -270,7 +277,7 @@ const getPublishPosts = async (req, res, next) => {
       message: id
         ? 'User published posts fetched successfully'
         : 'Published posts fetched successfully',
-      publishPosts,
+      posts: publishPosts,
     });
   } catch (error) {
     console.error('Error fetching published posts', error);
@@ -304,7 +311,7 @@ const getLatestPosts = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Latest posts fetched successfully',
-      latestPosts,
+      posts: latestPosts,
     });
   } catch (error) {
     console.error('Error fetching latest posts', error);

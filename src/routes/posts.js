@@ -105,12 +105,7 @@ postRoute.get('/posts/published', postController.getPublishPosts);
  * Route for fetching latest 10 posts.
  * GET /posts/latest
  */
-postRoute.get(
-  '/posts/latest',
-  authenticateJWT,
-  authLimiter,
-  postController.getLatestPosts
-);
+postRoute.get('/posts/latest', authLimiter, postController.getLatestPosts);
 
 /**
  * Route for fetching posts by tag.
