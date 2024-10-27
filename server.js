@@ -10,19 +10,27 @@ import errorHandler from './src/middleware/error-handler.js';
 import routes from './src/routes/index.js';
 const app = express();
 
-const allowedOrigins = process.env.CORS_ACCESS;
+const allowedOrigins = process.env.CORS_ACCESS?.split(',').map((origin) =>
+  origin.trim()
+);
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log('Request origin:', origin);
+    console.log('Allowed origins:', allowedOrigins);
+
     if (!origin) {
       callback(null, true);
-    } else if (allowedOrigins?.includes(origin)) {
+    } else if (
+      allowedOrigins?.some((allowedOrigin) => origin.includes(allowedOrigin))
+    ) {
       callback(null, true);
     } else {
+      console.log('CORS error: Origin not allowed');
       callback(new Error('Not allowed by CORS'));
     }
   },
+  credentials: true,
 };
-
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
