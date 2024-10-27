@@ -13,24 +13,36 @@ const app = express();
 const allowedOrigins = process.env.CORS_ACCESS?.split(',').map((origin) =>
   origin.trim()
 );
+
 const corsOptions = {
   origin: function (origin, callback) {
     console.log('Request origin:', origin);
     console.log('Allowed origins:', allowedOrigins);
 
+    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) {
-      callback(null, true);
-    } else if (
-      allowedOrigins?.some((allowedOrigin) => origin.includes(allowedOrigin))
-    ) {
-      callback(null, true);
-    } else {
-      console.log('CORS error: Origin not allowed');
-      callback(new Error('Not allowed by CORS'));
+      return callback(null, true);
     }
+
+    // Check if the origin is allowed
+    if (allowedOrigins?.includes(origin)) {
+      return callback(null, true);
+    }
+
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+  ],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
