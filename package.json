@@ -8,8 +8,8 @@
     "dev": "node --watch server",
     "migrate": "npx prisma migrate dev --name init",
     "build": "prisma migrate deploy",
-    "prisma:generate": "prisma generate",
-    "start": "node server.js"
+    "start": "npm run prisma:migrate && node index.js",
+    "prisma:migrate": "npx prisma migrate deploy"
   },
   "author": "",
   "license": "ISC",
