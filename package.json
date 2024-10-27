@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch server",
-    "start": "npm run prisma:migrate && node server.js",
-    "prisma:migrate": "npx prisma migrate deploy"
+    "start": "node server.js",
+    "build": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "author": "",
   "license": "ISC",
