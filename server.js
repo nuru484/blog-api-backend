@@ -29,6 +29,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+// Handle preflight requests
+app.options('*', cors(corsOptions)); // Respond to preflight requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
