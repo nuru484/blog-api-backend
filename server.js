@@ -11,6 +11,9 @@ import routes from './src/routes/index.js';
 const app = express();
 
 const allowedOrigins = process.env.CORS_ACCESS;
+
+console.log(allowedOrigins);
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) {
@@ -44,4 +47,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
   console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
+  console.log(allowedOrigins);
 });
