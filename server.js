@@ -18,19 +18,17 @@ console.log(allowedOrigins);
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) {
-      callback(null, true);
-    } else if (allowedOrigins?.includes(origin)) {
+    if (process.env.CORS_ACCESS?.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
 };
-
 app.use(cors(corsOptions));
 // Handle preflight requests
 app.options('*', cors(corsOptions)); // Respond to preflight requests
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
