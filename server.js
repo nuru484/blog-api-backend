@@ -10,7 +10,9 @@ import errorHandler from './src/middleware/error-handler.js';
 import routes from './src/routes/index.js';
 const app = express();
 
-const allowedOrigins = process.env.CORS_ACCESS;
+const allowedOrigins = process.env.CORS_ACCESS
+  ? process.env.CORS_ACCESS.split(',')
+  : [];
 
 console.log(allowedOrigins);
 
@@ -48,4 +50,5 @@ app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
   console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
   console.log(allowedOrigins);
+  console.log(typeof allowedOrigins);
 });
