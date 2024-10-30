@@ -14,8 +14,6 @@ const allowedOrigins = process.env.CORS_ACCESS
   ? process.env.CORS_ACCESS.split(',')
   : [];
 
-console.log(allowedOrigins);
-
 const corsOptions = {
   origin: function (origin, callback) {
     if (process.env.CORS_ACCESS?.indexOf(origin) !== -1) {
@@ -49,6 +47,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
   console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
-  console.log(allowedOrigins);
-  console.log(typeof allowedOrigins);
+  console.log(`Allowed origins: ${allowedOrigins}`);
 });
