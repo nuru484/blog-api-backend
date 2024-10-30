@@ -21,7 +21,7 @@ const likePost = async (req, res, next) => {
     let user = null;
 
     // If userId is provided, check if the user exists
-    if (userId) {
+    if (userId && userId !== 'undefined') {
       user = await prisma.user.findUnique({
         where: { id: parseInt(userId, 10) },
       });
@@ -99,7 +99,7 @@ const unLikePost = async (req, res, next) => {
     let user = null;
 
     // If userId is provided, check if the user exists
-    if (userId) {
+    if (userId && userId !== 'undefined') {
       user = await prisma.user.findUnique({
         where: { id: parseInt(userId, 10) },
       });
