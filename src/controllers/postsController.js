@@ -223,7 +223,11 @@ const fetchPosts = async (id, isPublished) => {
     where: whereClause,
     include: {
       tags: true,
-      comments: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
       views: true,
       likes: true,
       author: true,
