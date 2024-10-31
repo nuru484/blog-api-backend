@@ -25,30 +25,30 @@ const getTagById = async (id, res) => {
 
 // Create Tag
 const createTag = [
-  validateTagName,
-
+  validateTagName(),
   async (req, res, next) => {
-    // validation errors from validateTagname middleware
+    console.log('Reached createTag middleware');
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // If there are validation errors, return them to the user
+      console.log('Validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 
     try {
       const { name } = req.body;
-
       if (!name) {
+        console.log('No name provided');
         return res.status(400).json({ message: 'Tag name is required' });
       }
 
-      const tag = await prisma.tag.create({
-        data: { name },
-      });
+      console.log('Creating tag with name:', name);
+      const tag = await prisma.tag.create({ data: { name } });
+      console.log('Tag created:', tag);
 
       res.json({ message: 'Tag created successfully!', tag });
     } catch (error) {
-      console.error('Error creating tag', error);
+      console.error('Error creating tag:', error);
       next(error);
     }
   },
@@ -56,7 +56,7 @@ const createTag = [
 
 // Update Tag
 const updateTag = [
-  validateTagName,
+  validateTagName(),
 
   async (req, res, next) => {
     // validation errors from validateTagname middleware

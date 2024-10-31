@@ -16,13 +16,15 @@ const allowedOrigins = process.env.CORS_ACCESS
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (process.env.CORS_ACCESS?.indexOf(origin) !== -1) {
+    // Allow requests with no origin (like Postman and curl)
+    if (!origin || process.env.CORS_ACCESS?.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
 };
+
 app.use(cors(corsOptions));
 // Handle preflight requests
 app.options('*', cors(corsOptions)); // Respond to preflight requests
