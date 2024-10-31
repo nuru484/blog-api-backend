@@ -50,9 +50,9 @@ model Post {
 model Comment {
   id        Int      @id @default(autoincrement())
   content   String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    Int
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int?
   guestName String?
   createdAt DateTime @default(now())
@@ -61,7 +61,7 @@ model Comment {
 
 model View {
   id        Int      @id @default(autoincrement())
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    Int      @unique
   count     Int      @default(0)
   createdAt DateTime @default(now())
@@ -73,8 +73,8 @@ model Like {
   postId    Int
   userId    Int?
   guestName String?
-  User      User?   @relation(fields: [userId], references: [id])
-  Post      Post    @relation(fields: [postId], references: [id])
+  User      User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Post      Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([postId, userId, guestName])
 }
