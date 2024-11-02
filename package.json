@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "npx prisma migrate dev --name init",
-    "dev": "node --watch server",
+    "test": "jest",
+    "migrate": "npx prisma migrate deploy",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "build": "prisma generate && prisma migrate deploy",
     "postinstall": "prisma generate"
