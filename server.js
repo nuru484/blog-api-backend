@@ -46,7 +46,7 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 8080;
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
   console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
   console.log(`Allowed origins: ${allowedOrigins}`);
