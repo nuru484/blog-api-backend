@@ -17,7 +17,7 @@ const allowedOrigins = process.env.CORS_ACCESS
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like Postman and curl)
-    if (!origin || process.env.CORS_ACCESS?.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins?.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
