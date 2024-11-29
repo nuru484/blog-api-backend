@@ -149,4 +149,4 @@ Although this project is private, contributions may be allowed on a case-by-case
 
 ## Contact
 
-Nurudeen Abdul-Majeed - [abdulmajeednurudeen48@gmail.com]
+Nurudeen Abdul-Majeed - abdulmajeednurudeen48@gmail.com
