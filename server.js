@@ -2,8 +2,6 @@ import { config } from 'dotenv';
 config();
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import errorHandler from './src/middleware/error-handler.js';
@@ -26,18 +24,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// Handle preflight requests
-app.options('*', cors(corsOptions)); // Respond to preflight requests
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// Use Morgan middleware for logging requests
 app.use(morgan('combined'));
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'src/public')));
 
 app.use('/', routes);
 
