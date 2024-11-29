@@ -109,17 +109,43 @@ The API uses consistent error responses with appropriate HTTP status codes and d
 
 Logging is implemented using Morgan for HTTP request logging and Winston for application logs.
 
+Certainly! Including contribution guidelines in a private project signals how collaborators (if any) should contribute while maintaining the project's proprietary nature. Below is the revised text, ensuring clarity about the private and proprietary status:
+
+---
+
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Although this project is private, contributions may be allowed on a case-by-case basis with explicit permission. If you are granted access and wish to contribute, please follow these steps:
 
-## License
+1. **Fork the repository** (if access is granted).
+2. Create your feature branch:
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. Open a Pull Request for review.
 
-Distributed under the MIT License. See `LICENSE` for more information.
+---
+
+## 📄 License
+
+© Nurudeen Abdul-Majeed - All Rights Reserved
+
+**Private & Proprietary**
+
+- This project is **private** and **proprietary**.
+- All content, code, and design are exclusive to the owner.
+- **Unauthorized copying, modification, distribution, or use is strictly prohibited.**
+- Written permission is required for any use or access beyond what is explicitly granted.
+
+---
 
 ## Contact
 
