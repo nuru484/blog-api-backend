@@ -109,8 +109,6 @@ The API uses consistent error responses with appropriate HTTP status codes and d
 
 Logging is implemented using Morgan for HTTP request logging and Winston for application logs.
 
-Certainly! Including contribution guidelines in a private project signals how collaborators (if any) should contribute while maintaining the project's proprietary nature. Below is the revised text, ensuring clarity about the private and proprietary status:
-
 ---
 
 ## Contributing
