@@ -8,5 +8,4 @@ import viewPost from '../controllers/viewsController.js';
  * Route for updating views.
  */
 viewsRoute.post('/view/:postId/', authLimiter, viewPost);
-
 export default viewsRoute;
