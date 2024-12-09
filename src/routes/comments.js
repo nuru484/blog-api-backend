@@ -3,7 +3,6 @@ const commentsRoute = Router();
 
 import authLimiter from '../middleware/rateLimit.js';
 import * as commentsController from '../controllers/commentsController.js';
-
 /**
  * Route for creating a comment.
  */
