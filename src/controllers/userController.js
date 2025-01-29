@@ -4,6 +4,10 @@ const prisma = new PrismaClient();
 const userData = async (req, res) => {
   const email = req.user.email;
 
+  if (!email) {
+    return res.status(401).json({ message: 'Unauthenticated, please login.' });
+  }
+
   // Find user by email
   const user = await prisma.user.findUnique({
     where: { email: email },
