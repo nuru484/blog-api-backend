@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { compare } from 'bcrypt';
 import { validationResult } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
