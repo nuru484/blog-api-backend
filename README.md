@@ -134,21 +134,6 @@ Although this project is private, contributions may be allowed on a case-by-case
    ```
 5. Open a Pull Request for review.
 
----
-
-## 📄 License
-
-© Nurudeen Abdul-Majeed - All Rights Reserved
-
-**Private & Proprietary**
-
-- This project is **private** and **proprietary**.
-- All content, code, and design are exclusive to the owner.
-- **Unauthorized copying, modification, distribution, or use is strictly prohibited.**
-- Written permission is required for any use or access beyond what is explicitly granted.
-
----
-
 ## Contact
 
 Nurudeen Abdul-Majeed - abdulmajeednurudeen48@gmail.com
