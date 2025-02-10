@@ -59,7 +59,7 @@ const login = [
           role: user.role,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: '1m' }
+        { expiresIn: '20s' }
       );
 
       const refreshToken = jwt.sign({ id: user.id }, REFRESH_TOKEN_SECRET, {

@@ -83,5 +83,3 @@ enum Role {
   USER
   ADMIN
 }
-
-This repository contains the source code for [Organization Name]'s system and website. It includes backend services, frontend interfaces, and essential configurations to support operations and user interactions. Contributions and maintenance follow best practices to ensure scalability, security, and performance. 
