@@ -29,7 +29,7 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(morgan('combined'));
+app.use(morgan(':method :url :status :response-time ms'));
 
 app.use('/', routes);
 
@@ -39,7 +39,9 @@ app.use(errorHandler);
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
-  console.log('\x1b[34m%s\x1b[0m', ` http://localhost:${port}/`);
+  console.log(
+    `App is listening on port ${port} at ` + '\x1b[34m%s\x1b[0m',
+    ` http://localhost:${port}/`
+  );
   console.log(`Allowed origins: ${allowedOrigins}`);
 });

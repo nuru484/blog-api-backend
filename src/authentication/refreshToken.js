@@ -12,7 +12,9 @@ const refreshToken = async (req, res) => {
   const { refreshToken } = req.body;
 
   // Check no refresh token provided
-  if (!refreshToken) return res.sendStatus(401);
+  if (!refreshToken) {
+    return res.status(401).json({ message: 'No refresh token provided.' });
+  }
 
   try {
     // Validate refresh token exists in the DB
@@ -20,7 +22,10 @@ const refreshToken = async (req, res) => {
       where: { refreshToken },
     });
 
-    if (!user) return res.sendStatus(403); // Invalid refresh token
+    if (!user)
+      return res
+        .status(403)
+        .json({ message: 'Invalid refresh token provided.' }); // Invalid refresh token
 
     // Verify the refresh token using JWT
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, decoded) => {
@@ -44,7 +49,7 @@ const refreshToken = async (req, res) => {
           role: user.role,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: '15m' } // New access token valid for 1 hour
+        { expiresIn: '1m' } // New access token valid for 1 hour
       );
 
       res.json({ newAccessToken, user: req.user });
